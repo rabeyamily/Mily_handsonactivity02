@@ -1,0 +1,10 @@
+Commit Hash,Commit Date,Commit Author,Dependency Name,Type of Change
+1c9eeffbfc2eefa272c842d96784776093ed89dd,2019-08-29 13:38:41-06:00,Sarah Nadi,org.eclipse.jdt:org.eclipse.jdt.core,added
+1c9eeffbfc2eefa272c842d96784776093ed89dd,2019-08-29 13:38:41-06:00,Sarah Nadi,commons-io:commons-io,added
+1c9eeffbfc2eefa272c842d96784776093ed89dd,2019-08-29 13:38:41-06:00,Sarah Nadi,changedistiller:changedistiller,added
+493b4edb5a5b68f02a2eacbbc649cbe81c529a90,2021-04-26 19:27:47+00:00,dependabot[bot],commons-io:commons-io,changed from 2.5 to 2.7
+10e1769a9048fb3f8ea3b931924a21f99151697a,2023-08-31 12:12:06-06:00,Sarah Nadi,com.github.gumtreediff:core,added
+10e1769a9048fb3f8ea3b931924a21f99151697a,2023-08-31 12:12:06-06:00,Sarah Nadi,com.github.gumtreediff:client,added
+10e1769a9048fb3f8ea3b931924a21f99151697a,2023-08-31 12:12:06-06:00,Sarah Nadi,com.github.gumtreediff:gen.javaparser,added
+10e1769a9048fb3f8ea3b931924a21f99151697a,2023-08-31 12:12:06-06:00,Sarah Nadi,changedistiller:changedistiller,removed
+0e88b6b4be73ee4354b2d67f4d957173f499af11,2024-10-03 18:44:47+00:00,dependabot[bot],commons-io:commons-io,changed from 2.7 to 2.14.0

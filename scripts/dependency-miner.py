@@ -12,6 +12,7 @@ Requirements:
     pip install pydriller python-dotenv
 """
 
+import csv
 import re
 import sys
 from pydriller import Repository
@@ -102,11 +103,39 @@ def mine_repository(owner: str, repo: str) -> None:
 
     # Get commits with dependency changes
     # TODO: implement the neded logic to analyze commits and extract dependency changes. Use helper functions as needed and write your own helper functions.
+    repo_url = f"{repo_url}.git"
+    rows = []
+    seen = set()
+    for commit in Repository(repo_url, only_modifications_with_file_types=[".xml"]).traverse_commits():
+        for f in commit.modified_files:
+            if f.filename != "pom.xml":
+                continue
+            before = _parse_dependency_blocks(f.source_code_before) or {}
+            after = _parse_dependency_blocks(f.source_code) or {}
+            for k in after:
+                if k not in before:
+                    rows.append((commit.hash, commit.author_date, commit.author.name, k, "added"))
+                    seen.add(commit.hash)
+                elif before[k] != after[k]:
+                    rows.append((commit.hash, commit.author_date, commit.author.name, k, "changed from " + str(before.get(k, "")) + " to " + str(after.get(k, ""))))
+                    seen.add(commit.hash)
+            for k in before:
+                if k not in after:
+                    rows.append((commit.hash, commit.author_date, commit.author.name, k, "removed"))
+                    seen.add(commit.hash)
+    output_filename = f"{owner}_{repo}_dependency_commits.csv"
+    with open(output_filename, "w", newline="", encoding="utf-8") as out:
+        w = csv.writer(out)
+        w.writerow(["Commit Hash", "Commit Date", "Commit Author", "Dependency Name", "Type of Change"])
+        for r in rows:
+            w.writerow([r[0], str(r[1]), r[2], r[3], r[4]])
+    commits_with_changes = seen
 
     # Display results
     print(f"Repository: {owner}/{repo}")
-    print(f"Commits with dependency changes: {len(commits_with_changes)}")
-    print(f"\nCommit list saved to: {output_filename}")
+    print("Results:")
+    print(f"Number of commits with dependency changes: {len(commits_with_changes)}")
+    print(f"Commit list saved to: {output_filename}")
 
 
 def main():
